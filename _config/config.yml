@@ -1,0 +1,20 @@
+---
+Name: 'sendgrid-mailer'
+After:
+  - '#mailer'
+Only:
+  envvarset: 'SENDGRID_API_KEY'
+---
+SilverStripe\Core\Injector\Injector:
+  Symfony\Component\Mailer\MailerInterface:
+    class: Symfony\Component\Mailer\Mailer
+    constructor:
+      transport: '%$Symfony\Component\Mailer\Transport\TransportInterface'
+  Symfony\Component\EventDispatcher\EventDispatcherInterface.mailer:
+    class: Symfony\Component\EventDispatcher\EventDispatcher
+    calls:
+      - [addSubscriber, ['%$HelloBetter\SendGridMailer\Mailer\SendGridMailerSubscriber']]
+  Symfony\Component\Mailer\Transport\TransportInterface:
+    factory: HelloBetter\SendGridMailer\Mailer\SendGridTransportFactory
+    constructor:
+      dispatcher: '%$Symfony\Component\EventDispatcher\EventDispatcherInterface.mailer'
