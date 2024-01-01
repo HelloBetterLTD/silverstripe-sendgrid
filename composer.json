@@ -18,6 +18,7 @@
     "require": {
         "php": ">8",
         "silverstripe/framework": "5.*",
+        "symfony/http-client": "v7.0.2",
         "symfony/sendgrid-mailer": "v7.0.0"
     },
     "require-dev": {
