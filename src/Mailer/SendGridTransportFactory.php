@@ -21,4 +21,15 @@ class SendGridTransportFactory implements Factory
         return Transport::fromDsn($dsn, $dispatcher);
     }
 
+    public static function fromDsn($dsn, $dispatcher)
+    {
+        $sendGridAPI = Environment::getEnv('SENDGRID_API_KEY');
+        if ($sendGridAPI) {
+            return Transport::fromDsn('sendgrid+api://' . $sendGridAPI . '@default', $dispatcher);
+        }
+
+        $dsn = Environment::getEnv('MAILER_DSN') ?: $params['dsn'];
+        return Transport::fromDsn($dsn, $dispatcher);
+    }
+
 }
